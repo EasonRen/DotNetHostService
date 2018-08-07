@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetHostService", "DotNetHostService\DotNetHostService.csproj", "{779DB9AB-B88F-4539-8003-C94925600EAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{779DB9AB-B88F-4539-8003-C94925600EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779DB9AB-B88F-4539-8003-C94925600EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779DB9AB-B88F-4539-8003-C94925600EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779DB9AB-B88F-4539-8003-C94925600EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0F1D166-90CE-4C14-B0C9-FE39BEA90502}
+	EndGlobalSection
+EndGlobal
