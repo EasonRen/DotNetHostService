@@ -11,23 +11,26 @@ namespace DotNetHostService
     public class TimedHostedService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
-        private System.Timers.Timer _timer;
         private readonly AppSettingsModel _appSettingsModel;
         private readonly IApplicationLifetime _appLifetime;
+        private readonly AzureStorage _azureStorage;
+        private System.Timers.Timer _timer;
         private Thread _testThread;
 
 
         //IOptionsSnapshot<AppSettingsModel> settings
-        public TimedHostedService(ILogger<TimedHostedService> logger, IOptions<AppSettingsModel> settings, IApplicationLifetime appLifetime)
+        public TimedHostedService(ILogger<TimedHostedService> logger, IOptions<AppSettingsModel> settings, IApplicationLifetime appLifetime,AzureStorage azureStorage)
         {
             _logger = logger;
             _appSettingsModel = settings.Value;
             _appLifetime = appLifetime;
+            _azureStorage = azureStorage;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Timed Background Service is starting.");
+            LogHelper.LogFile(LogType.Info, "Timed Background Service is starting.");
             _appLifetime.ApplicationStarted.Register(OnStarted);
             _appLifetime.ApplicationStopping.Register(OnStopping);
             _appLifetime.ApplicationStopped.Register(OnStopped);
@@ -44,7 +47,7 @@ namespace DotNetHostService
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Timed Background Service is stopping.");
-
+            LogHelper.LogFile(LogType.Info, "Timed Background Service is stopping.");
             //_timer?.Change(Timeout.Infinite, 0);
 
             return Task.CompletedTask;
@@ -54,6 +57,7 @@ namespace DotNetHostService
         {
             _logger.LogInformation("OnStarted has been called.");
 
+            LogHelper.LogFile(LogType.Info, "OnStarted has been called.");
 
             InitTimer();
 
@@ -63,11 +67,13 @@ namespace DotNetHostService
 
         private void OnStopping()
         {
+            LogHelper.LogFile(LogType.Info, "OnStopping has been called.");
             _logger.LogInformation("OnStopping has been called.");
         }
 
         private void OnStopped()
         {
+            LogHelper.LogFile(LogType.Info, "OnStopped has been called.");
             _logger.LogInformation("OnStopped has been called.");
         }
 
@@ -88,7 +94,7 @@ namespace DotNetHostService
                 _testThread.IsBackground = true;
                 _testThread.Start();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -103,11 +109,12 @@ namespace DotNetHostService
 
                 _logger.LogInformation($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff")}] Timed Background Service is working.");
                 _logger.LogInformation(_appSettingsModel.ConnectString);
+                _azureStorage.InitAzureStorageConnectAsync().GetAwaiter().GetResult();
 
                 _timer.Enabled = true;
                 _timer.Start();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

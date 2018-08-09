@@ -15,16 +15,16 @@ namespace DotNetHostService
                 .ConfigureHostConfiguration(configHost =>
                 {
                     configHost.SetBasePath(Directory.GetCurrentDirectory());
-                    configHost.AddJsonFile("hostsettings.json", true, true);
+                    //configHost.AddJsonFile("hostsettings.json", true, true);
                     configHost.AddEnvironmentVariables("ASPNETCORE_");
-                    configHost.AddCommandLine(args);
+                    //configHost.AddCommandLine(args);
                 })
                 .ConfigureAppConfiguration((hostContext, configApp) =>
                 {
                     configApp.AddJsonFile("appsettings.json", true, reloadOnChange: true);
                     configApp.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", true);
                     configApp.AddEnvironmentVariables();
-                    configApp.AddCommandLine(args);
+                    //configApp.AddCommandLine(args);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -32,6 +32,7 @@ namespace DotNetHostService
                     services.AddOptions();
                     services.Configure<AppSettingsModel>(hostContext.Configuration.GetSection("appSettings"));
                     services.AddHostedService<TimedHostedService>();
+                    services.AddSingleton<AzureStorage>();
                 })
                 .ConfigureLogging((hostContext, configLogging) =>
                 {
