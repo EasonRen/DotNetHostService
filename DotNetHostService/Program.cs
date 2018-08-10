@@ -30,7 +30,7 @@ namespace DotNetHostService
                 {
                     services.AddLogging();
                     services.AddOptions();
-                    services.Configure<AppSettingsModel>(hostContext.Configuration.GetSection("appSettings"));
+                    services.Configure<AppSettingsModel>(hostContext.Configuration.GetSection("AppSettings"));
                     services.AddHostedService<TimedHostedService>();
                     services.AddSingleton<AzureStorage>();
                 })

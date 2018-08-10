@@ -19,7 +19,7 @@ namespace DotNetHostService
 
 
         //IOptionsSnapshot<AppSettingsModel> settings
-        public TimedHostedService(ILogger<TimedHostedService> logger, IOptions<AppSettingsModel> settings, IApplicationLifetime appLifetime,AzureStorage azureStorage)
+        public TimedHostedService(ILogger<TimedHostedService> logger, IOptions<AppSettingsModel> settings, IApplicationLifetime appLifetime, AzureStorage azureStorage)
         {
             _logger = logger;
             _appSettingsModel = settings.Value;
@@ -114,15 +114,18 @@ namespace DotNetHostService
                 _timer.Enabled = true;
                 _timer.Start();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogInformation($"TestMessage Exception:{ex.ToString()}");
+                _timer.Enabled = true;
+                _timer.Start();
             }
         }
 
         public void Dispose()
         {
             _timer?.Dispose();
+            LogHelper.LogFile(LogType.Info, "Dispose has been called.");
         }
     }
 }
